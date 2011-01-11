@@ -16,7 +16,8 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 
-LOCAL_MODULE    := test
+
+LOCAL_MODULE    := gambit
 LOCAL_SRC_FILES := test-jni.c fib.c fib_.c
 LOCAL_CFLAGS := -I./depends -fno-short-enums
 LOCAL_LDLIBS := -ldl -fno-short-enums -lc -L./depends -lgambc

@@ -1,4 +1,38 @@
-This is an example project for using gambit scheme on android. 
+This is an example project for using gambit scheme on android.
 
-For more details you can read
-http://seanchapel.blogspot.com/2010/10/gambit-scheme-on-android.html
+Project has been moved from eclipse to netbeans. netbeans generates an ant build.xml so no ide is needed.
+If you chose to use netbean I am using the nbandroid plugin here: http://kenai.com/projects/nbandroid/pages/Home
+Now with a one-click install and run.
+
+You will need to change the "build.xml" (line 94) in the root directory to whatever you wish to sign with.
+
+Notes:
+
+scheme files are in /jni
+scheme files are compiled via ant with "compileScheme.sh" in /jni
+
+
+Adding a new scheme function requires:
+
+adding the function in the scheme file and c-declaring it (currently jni\fib.scm)
+editing the jni files to add your function (currently jni\test-jni.c and jni\org_seanchapel_gambittest.h)
+adding the native function to the java file (currently src\org\seanchapel\gambittest\gambit\MainActivity.java)
+
+
+
+As of the latest git version of gambit you can compile without having to do any patching. I used this to compile it:
+
+export ANDROID_ROOT=/Users/seanchapel/android-ndk-r4b/build
+export PATH=$PATH:$ANDROID_ROOT/prebuilt/darwin-x86/arm-eabi-4.4.0/bin/
+export LD=arm-eabi-ld
+export AR=arm-eabi-ar
+export STRIP=arm-eabi-strip
+export RANLIB=arm-eabi-ranlib
+export CC=arm-eabi-gcc
+export CXX=arm-eabi-g++
+export PREFIX=$ANDROID_ROOT/../gambc
+./configure --enable-single-host --prefix=$PREFIX -host=arm-eabi CC=arm-eabi-gcc CPPFLAGS="-DANDROID -I$ANDROID_ROOT/platforms/android-5/arch-arm/usr/include/ -fno-short-enums" CFLAGS="-DANDROID -fno-short-enums -I$ANDROID_ROOT/platforms/android-5/arch-arm/usr/include/ -nostdlib" LDFLAGS="-Wl,-rpath-link=$ANDROID_ROOT/platforms/android-5/arch-arm/usr/lib/ -L$ANDROID_ROOT/platforms/android-5/arch-arm/usr/lib" LIBS="-lc -ldl"
+make
+
+
+Note that building will fail for gsi however all you need is libgambc.so .

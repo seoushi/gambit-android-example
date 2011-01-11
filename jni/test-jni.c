@@ -17,7 +17,7 @@
 
 #define ___VERSION 406000
 
-#include "test_test_test.h"
+#include "org_seanchapel_gambittest.h"
 #include <string.h>
 #include <jni.h>
 #include <stdio.h>
@@ -32,8 +32,22 @@ ___END_C_LINKAGE
 ___setup_params_struct setup_params;
 
 int fib(int x);
+char* testports();
 
-jstring Java_test_test_test_stringFromJNI (JNIEnv *env, jobject obj)
+jstring Java_org_seanchapel_gambittest_MainActivity_testFib(JNIEnv *env, jobject obj)
+{
+	char buffer[100];
+	int n = sprintf(buffer, "fib of 10 is: %d", fib(10));
+	
+    return (*env)->NewStringUTF(env, buffer);
+}
+
+jstring Java_org_seanchapel_gambittest_MainActivity_testPorts(JNIEnv *env, jobject obj)
+{
+    return (*env)->NewStringUTF(env, testports());
+}
+
+void Java_org_seanchapel_gambittest_MainActivity_initGambit(JNIEnv *env, jobject obj)
 {
 	// Taken from gambit, lib/main.c. 
 	int debug_settings = ___DEBUG_SETTINGS_INITIAL;
@@ -64,9 +78,4 @@ jstring Java_test_test_test_stringFromJNI (JNIEnv *env, jobject obj)
     setup_params.debug_settings = debug_settings;
 	
 	___setup(&setup_params);
-	
-	char buffer[100];
-	int n = sprintf(buffer, "fib of 10 is: %d", fib(10));
-	
-    return (*env)->NewStringUTF(env, buffer);
 }

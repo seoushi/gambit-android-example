@@ -7,5 +7,12 @@
 				(helper (- n 1) b (+ a b))))))
 		(helper x 0 1)))
 
-;; c define		
+;; for testing ports
+(define (test-ports)
+	(read-line (open-process "ls") "failed"))
+
+		
+;; c defines
 (c-define (c-fib x) (int32) int "fib" "" (fib x))
+
+(c-define (c-testports) () char-string "testports" "" (test-ports))

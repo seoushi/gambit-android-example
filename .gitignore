@@ -1,0 +1,4 @@
+build/*
+dist/*
+obj/*
+manifest.mf
